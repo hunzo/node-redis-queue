@@ -1,0 +1,26 @@
+version: '3'
+services:
+    redis:
+        image: redis
+        container_name: redis
+        ports: 
+            - 6379:6379
+        restart: always
+    
+    redis_commander:
+        container_name: redis_commander
+        image: rediscommander/redis-commander
+        restart: always
+        environment: 
+            - REDIS_HOSTS=local:redis:6379
+        ports: 
+            - 8081:8081
+        
+    
+    redis_app:
+        container_name: redis_app
+        build: redis_app/
+        ports: 
+            - 80:3000
+        depends_on: 
+            - redis
